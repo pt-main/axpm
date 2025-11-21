@@ -1,0 +1,3 @@
+docs = {
+    'help': 'help command'
+}
