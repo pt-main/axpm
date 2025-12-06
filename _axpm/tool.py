@@ -8,7 +8,7 @@ from .core.basics.interface import animate_logo
 
 
 
-version = '0.4.9-A'
+version = '0.5.6-A'
 
     
 
