@@ -1,5 +1,5 @@
 from .basics.pypm import PyPm
-from .abstr import abstract_executable
+from .basics.abstr import abstract_executable
 import time, threading, os
 
 
@@ -40,8 +40,8 @@ class Python(abstract_executable):
             self.out.color('bold'))
     
     def help(self):
-        text = f'''
-PIP:
+        text = \
+f'''PIP
     install (-i) : install python module with pip
     parallel_install (-pi) : parallel module instalation with pip 
     pip : work with pip
@@ -49,14 +49,18 @@ PIP:
 PYTHON
     python (-self) : work with python
 
-FILES:
+FILES
     package : create folder with python package
+        arg name : name of packeage
     project : create python project
+        arg name : name of package
+        arg license : license for project
 
 OTHER
-    help (-h) : show that message
-'''
-        print(self.out.text_to_frame(text))
+    help (-h) : show that message'''
+        self.out.output(
+            self.out.text_to_frame(text)
+        )
 
     def install(self, *args):
         start = time.time()

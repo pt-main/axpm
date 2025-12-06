@@ -1,8 +1,9 @@
-from .core.abstr import abstract_executable
+from .core.basics.abstr import abstract_executable
 import sys, json as serializer, os, abc, time
-from .core.pythpm import Python
+from .core.pypm import Python
 from .core.basics.interface import Animations, Iteratable
 from .core.ghpm import Github
+from .core.jvpm import Java
 from .core.basics.interface import animate_logo
 
 
@@ -17,6 +18,7 @@ class Tool(abstract_executable):
         super().__init__()
         self.py = Python(self.out)
         self.gh = Github()
+        self.jv = Java()
         self._name = 'tool'
         self.commands = {
             'python': {'commnd': self.py.execute, 'min_args': 1},
@@ -24,6 +26,9 @@ class Tool(abstract_executable):
 
             'github': {'commnd': self.gh.execute, 'min_args': 1},
             'gh': 'github',
+            
+            'java': {'commnd': self.jv.execute, 'min_args': 1},
+            'jv': 'java',
 
             'pm': {'commnd': self.logo, 'min_args': -1},
 
@@ -81,34 +86,26 @@ class Tool(abstract_executable):
     
     @property
     def help_comands(self):
-        return f'''
-╭──────────────────────────────────────────────────╮
-│ ○ ○ ◉                                    ╔══════╗│
-╰──────────────────────────────────────────╣ main ╠╯
-┌──────────────┳───────────────────────────╩══════╩┐
-│ help         ┃ show that message                 │
-│ -h           ┃                                   │
-├──────────────╋───────────────────────────────────┤
-│ about        ┃ show welcome & about message      │
-│ main         ┃                                   │
-├──────────────╋───────────────────────────────────┤
-│ -0c          ┃ turn on colors highlight          │
-│ -1c          ┃ turn off colors highlight         │
-├──────────────╋───────────────────────────────────┤
-│ install      ┃ install python module             │
-│ -i           ┃ with pip                          │
-├──────────────╋───────────────────────────────────┤
-│ python       ┃ access to Python                  │
-│ --py         ┃                                   │
-├──────────────╋───────────────────────────────────┤
-│ github       ┃ acess to github                   │
-│ --gh         ┃                                   │
-└──────────────┻───────────────────────────────────┘
-'''
-        self.out.output(text)
+        return \
+f'''MAIN
+    python (py) : access to Python
+    github (gh) : access to Github
+    java (jv) : access to Java
+
+ALIASES
+    install (-i) : install python module with pip
+    
+OTHER
+    help (-h) : show that message
+    about (main) : show welcome & about message
+    -0c : turn on colors highlight
+    -1c : turn off colors highlight
+    pm : show animation'''
 
     def help(self, *args):
-        self.out.output(self.help_comands)
+        self.out.output(
+            self.out.text_to_frame(self.help_comands)
+        )
     
     def no_color(self, *args):
         self.out.state['colors'] = False

@@ -1,4 +1,4 @@
-from .basics.interface import *
+from .interface import *
 
 
 

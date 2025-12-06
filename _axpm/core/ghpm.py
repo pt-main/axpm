@@ -3,7 +3,7 @@ import zipfile
 import io
 import os
 import shutil
-from .abstr import abstract_executable
+from .basics.abstr import abstract_executable
 
 def download_repo_zip(repo_url, target_dir):
     try:
@@ -57,20 +57,15 @@ class Github(abstract_executable):
             'help': {'commnd': self.help, 'min_args': 0}, 
             '-h': 'help',
         }
+        
     def help(self):
-        text = '''
-╭──────────────────────────────────────────────────╮
-│ ○ ○ ◉                                  ╔════════╗│
-╰────────────────────────────────────────╣ github ╠╯
-╭──────────────┳─────────────────────────╩════════╩╮
-│ help         ┃ show that message                 │
-│ -h           ┃                                   │
-├──────────────╋───────────────────────────────────┤
-│ download     ┃ download repo to taret            │
-│ -d           ┃ dir                               │
-└──────────────┻───────────────────────────────────┘
-'''
-        self.out.output(text)
+        text = \
+'''download  (-d) : download repo to taret dir
+help (-h) : show that message'''
+        self.out.output(
+            self.out.text_to_frame(text)
+        )
+        
     def get(self, *args):
         repo = args[0]
         target = args[1]
